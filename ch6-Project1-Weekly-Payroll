@@ -1,0 +1,164 @@
+Public Class Form1
+    Inherits System.Windows.Forms.Form
+
+#Region " Windows Form Designer generated code "
+
+    Public Sub New()
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        'Add any initialization after the InitializeComponent() call
+
+    End Sub
+
+    'Form overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing Then
+            If Not (components Is Nothing) Then
+                components.Dispose()
+            End If
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents lstPayroll As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents btnWeeklyDate As System.Windows.Forms.Button
+    Friend WithEvents btnWeeklyPayroll As System.Windows.Forms.Button
+    Friend WithEvents btnClear As System.Windows.Forms.Button
+    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.lstPayroll = New System.Windows.Forms.ListView
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
+        Me.btnWeeklyDate = New System.Windows.Forms.Button
+        Me.btnWeeklyPayroll = New System.Windows.Forms.Button
+        Me.btnClear = New System.Windows.Forms.Button
+        Me.SuspendLayout()
+        '
+        'lstPayroll
+        '
+        Me.lstPayroll.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lstPayroll.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3})
+        Me.lstPayroll.FullRowSelect = True
+        Me.lstPayroll.Location = New System.Drawing.Point(8, 16)
+        Me.lstPayroll.Name = "lstPayroll"
+        Me.lstPayroll.Size = New System.Drawing.Size(274, 275)
+        Me.lstPayroll.TabIndex = 3
+        Me.lstPayroll.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Employee Name"
+        Me.ColumnHeader1.Width = 140
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Hours"
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Rate"
+        Me.ColumnHeader3.Width = 70
+        '
+        'btnWeeklyDate
+        '
+        Me.btnWeeklyDate.Location = New System.Drawing.Point(328, 32)
+        Me.btnWeeklyDate.Name = "btnWeeklyDate"
+        Me.btnWeeklyDate.Size = New System.Drawing.Size(120, 64)
+        Me.btnWeeklyDate.TabIndex = 4
+        Me.btnWeeklyDate.Text = "Enter Weekly Date"
+        '
+        'btnWeeklyPayroll
+        '
+        Me.btnWeeklyPayroll.Location = New System.Drawing.Point(328, 128)
+        Me.btnWeeklyPayroll.Name = "btnWeeklyPayroll"
+        Me.btnWeeklyPayroll.Size = New System.Drawing.Size(120, 64)
+        Me.btnWeeklyPayroll.TabIndex = 5
+        Me.btnWeeklyPayroll.Text = "Total Weekly Payroll"
+        '
+        'btnClear
+        '
+        Me.btnClear.Location = New System.Drawing.Point(328, 224)
+        Me.btnClear.Name = "btnClear"
+        Me.btnClear.Size = New System.Drawing.Size(120, 64)
+        Me.btnClear.TabIndex = 6
+        Me.btnClear.Text = "Clear Weekly Data"
+        '
+        'Form1
+        '
+        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.ClientSize = New System.Drawing.Size(544, 506)
+        Me.Controls.Add(Me.btnClear)
+        Me.Controls.Add(Me.btnWeeklyPayroll)
+        Me.Controls.Add(Me.btnWeeklyDate)
+        Me.Controls.Add(Me.lstPayroll)
+        Me.Name = "Form1"
+        Me.Text = "Form1"
+        Me.ResumeLayout(False)
+
+    End Sub
+
+#End Region
+
+    Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim intColumnOWidth As Integer
+
+        If intColumnOWidth > 0 Then
+        End If
+        lstPayroll.Columns(0).Width = intColumnOWidth
+    End Sub
+
+    Private Sub btnWeeklyDate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnWeeklyDate.Click
+        Dim objAddItemForm As New frmWeeklyDate
+
+        objAddItemForm.ShowDialog()
+        Do Until objAddItemForm.txtEmploeyyeName.Text = ""
+            Dim lviPayroll As New ListViewItem(objAddItemForm.txtEmploeyyeName.Text)
+            lviPayroll.SubItems.Add(objAddItemForm.nudHours.Value)
+            lviPayroll.SubItems.Add(Format$(objAddItemForm.txtRate.Text, "Currency"))
+
+            lstPayroll.Items.Add(lviPayroll)
+            objAddItemForm.ShowDialog()
+        Loop
+
+    End Sub
+
+    Private Sub btnWeeklyPayroll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnWeeklyPayroll.Click
+        Dim intIndex, intListCount As Integer
+        Dim sngTotalSales As Single = 0
+        Dim sngTotalWorkerPay As Single = 0
+        Dim strPayRate As Single
+        Dim sngHours As Single
+        Dim strResults As String, strHours As String
+        intListCount = Convert.ToInt32(lstPayroll.Items.Count)
+        For intIndex = 0 To intListCount - 1
+            strHours = lstPayroll.Items(intIndex).SubItems(1).Text
+            strPayRate = lstPayroll.Items(intIndex).SubItems(2).Text
+            strHours = strHours.Replace("$", "0")   ' ("$", "0") adds a $ sign to the end of the thing and then adds a 0
+            sngHours = Convert.ToString(strHours)
+            sngTotalSales += sngHours  ' += continuously adds the information given
+            sngTotalWorkerPay += sngHours * strPayRate
+        Next
+        strResults = "Total Hours Worked: " & (sngTotalSales) & ControlChars.NewLine
+        strResults &= "Total  Pay: " & Format$(sngTotalWorkerPay, "Currency")
+        MessageBox.Show(strResults, "Total Hours Paid")
+
+    End Sub
+
+    Private Sub btnClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClear.Click
+        lstPayroll.Items.Clear()
+    End Sub
+End Class
