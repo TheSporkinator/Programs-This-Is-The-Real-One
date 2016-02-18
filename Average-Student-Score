@@ -1,0 +1,73 @@
+    'Evan Lopez
+    'Period 6
+    'Average Student Score Project
+    Dim StudentNumber As Single = 0
+    Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim intColumnOWidth As Integer
+
+        If intColumnOWidth > 0 Then
+        End If
+        lstScore.Columns(0).Width = intColumnOWidth
+    End Sub
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Dim objAddItemForm As New StudentData
+
+        objAddItemForm.ShowDialog()
+        Do Until objAddItemForm.txtStudentName.Text = ""
+            Dim lviScore As New ListViewItem(objAddItemForm.txtStudentName.Text)
+            StudentNumber += StudentNumber
+            lviScore.SubItems.Add(objAddItemForm.txtStudentScore.Text)
+
+            lstScore.Items.Add(lviScore)
+            objAddItemForm.ShowDialog()
+        Loop
+
+    End Sub
+
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+        Dim counter As Integer
+        Dim strResults As String = ""
+        Dim sngScores As Single = 0
+        Dim sngAverage As Single = 0
+        Dim sngListCount As Single = 0
+
+        'The number of items on the list is assigne to intListCount
+        sngListCount = Convert.ToSingle(lstScore.Items.Count)
+
+        'This for loop will iterate through each item in the list
+        For counter = 0 To sngListCount - 1
+
+            'Converts the students score at the location of the counter in the list and removes the percent sign
+            sngScores = Convert.ToSingle(lstScore.Items(counter).SubItems(1).Text.Replace("%", ""))
+            'Adds the scores to the average
+            sngAverage += sngScores
+        Next
+
+        'Sets the average
+        sngAverage = sngAverage / sngListCount
+
+        'Outputs the results to a message box
+        strResults = "The average score is: " & Format(sngAverage, "0.00") & "%" & ControlChars.NewLine
+        strResults &= "The number of scores: " & sngListCount
+        MessageBox.Show(strResults, "Average Score")
+
+    End Sub
+
+    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
+        lstScore.Items.Clear()
+    End Sub
+End Class
+
+
+Student Data Form
+
+    Private Sub StudentData_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        txtStudentScore.Text = ""
+        txtStudentName.Text = ""
+    End Sub
+
+    Private Sub btnOk1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOk1.Click
+        Me.Close()
+    End Sub
+End Class
