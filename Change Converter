@@ -1,0 +1,44 @@
+    'Evan Lopez
+    'Period 6
+    'Change Converter Project
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Dim shrHalfDollars, shrQuarters, shrDimes, shrNickles, shrPennies, shrChange As Short
+        Dim strResults As String
+        shrChange = 100 - nudChangeAmmount.Value
+
+        If shrChange >= 50 Then
+            shrHalfDollars += 1
+            shrChange -= 50
+        End If
+        If shrChange >= 25 Then
+            shrQuarters += 1
+            shrChange -= 25
+        End If
+        If shrChange >= 10 Then
+            shrDimes += 1
+            shrChange -= 10
+        End If
+        If shrChange >= 5 Then
+            shrNickles += 1
+            shrChange -= 5
+        End If
+        If shrChange >= 1 Then
+            shrPennies += 1
+            shrChange -= 1
+        End If
+
+        strResults = "Half Dollars: " & shrHalfDollars & ControlChars.NewLine
+        strResults &= "Quarters: " & shrQuarters & ControlChars.NewLine
+        strResults &= "Dimes: " & shrDimes & ControlChars.NewLine
+        strResults &= "Nickles: " & shrNickles & ControlChars.NewLine
+        strResults &= "Pennies: " & shrPennies & ControlChars.NewLine
+        'strResults &= "Change Due: " & shrChange
+        MessageBox.Show(strResults, "Change Due")
+
+    End Sub
+
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+        nudChangeAmmount.Text = 1
+    End Sub
+End Class
